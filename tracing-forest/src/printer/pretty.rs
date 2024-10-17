@@ -87,9 +87,12 @@ impl Pretty {
                 Pretty::format_event(event, writer)
             }
             Tree::Span(span) => {
-                Pretty::format_shared(&span.shared, writer)?;
-                Pretty::format_indent(indent, writer)?;
-                Pretty::format_span(span, duration_root, indent, writer)
+                if !span.nodes.is_empty() {
+                    Pretty::format_shared(&span.shared, writer)?;
+                    Pretty::format_indent(indent, writer)?;
+                    Pretty::format_span(span, duration_root, indent, writer)?;
+                }
+                Ok(())
             }
         }
     }
